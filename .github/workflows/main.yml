@@ -36,7 +36,7 @@ jobs:
          password: ${{ secrets.PASSWORD }}
          port: ${{ secrets.PORT }}
          source: "deploy.tar"
-         target: ${{destination}}
+         target: $destination
      - name: Deploy
        uses: appleboy/ssh-action@v0.1.10
        with:
@@ -44,7 +44,7 @@ jobs:
          username: ${{ secrets.USERNAME }}
          password: ${{ secrets.PASSWORD }}
          port: ${{ secrets.PORT }}
-         script: tar -xf ${{destination}}/deploy.tar ${{destination}}/
+         script: tar -xf $destination/deploy.tar $destination/
         
          
 
