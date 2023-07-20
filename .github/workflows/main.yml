@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build the app
+    steps:
+     - uses: actions/checkout@v3
+     - name: Setup node
+       uses: actions/setup-node@v3
+       with:
+         node-version: 18
+     - run: npm build
+     - uses: actions/cache@v3
+       env:
+          cache-name: cache-build
+       with:
+          path: ~/dist
+          key: ${{runner.os}}-build-${{env.cache-name}}
+          restore-keys: |
+            ${{runner.os}}-build-
+            ${{runner.os}}
+     - run: ls .
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to server
+    steps:
+      - name: Get build from cache
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-build
+        with:
+          path: ~/dist
+          key: ${{runner.os}}-build-${{env.cache-name}}
+      - name: Send to server
+        run: ls .
+    
+      
+    
+
