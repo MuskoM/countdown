@@ -23,7 +23,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         source: .dist
-        target: /home/nvi0/www
+        target: /home/${{secrets.USERNAME}}/www
     
       
     
