@@ -15,29 +15,15 @@ jobs:
          node-version: 18
      - run: npm install
      - run: npm run build
-     - uses: actions/cache@v3
-       env:
-          cache-name: cache-build
+     - name: Send to server
+       uses: appleboy/scp-action@v0.1.4
        with:
-          path: ~/dist
-          key: ${{runner.os}}-build-${{env.cache-name}}
-          restore-keys: |
-            ${{runner.os}}-build-
-            ${{runner.os}}
-     - run: ls .
-  deploy:
-    runs-on: ubuntu-latest
-    name: Deploy to server
-    steps:
-      - name: Get build from cache
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-build
-        with:
-          path: ~/dist
-          key: ${{runner.os}}-build-${{env.cache-name}}
-      - name: Send to server
-        run: ls .
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        source: .dist
+        target: /home/nvi0/www
     
       
     
