@@ -15,8 +15,19 @@ jobs:
          node-version: 18
      - run: npm install
      - run: npm run build
-     - name: Send to server
-       run: scp -i ${{secrets.PUB_KEY}} -P ${{ secrets.PORT }} ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{secrets.USERNAME}}/www
-      
-    
+      # Runs a set of commands using the runners shell
+     - name: Run a multi-line script
+       run: |
+        mkdir ../build
+        cp -TR dist ../build
+        tar -cvf deploy.tar ../build/dist
+     - name: Deploy to server
+       uses: appleboy/scp-action@master
+       with:
+         host: ${{ secrets.HOST }}
+         username: ${{ secrets.USERNAME }}
+         key: ${{ secrets.PASSWORD }}
+         port: ${{ secrets.PORT }}
+         source: "deploy.tar"
+         target: "/home/nvi0/www"
 
