@@ -7,6 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build the app
+    env:
+      destination: /home/nvi0/www
     steps:
      - uses: actions/checkout@v3
      - name: Setup node
@@ -34,7 +36,7 @@ jobs:
          password: ${{ secrets.PASSWORD }}
          port: ${{ secrets.PORT }}
          source: "deploy.tar"
-         target: "/home/nvi0/www"
+         target: ${{destination}}
      - name: Deploy
        uses: appleboy/ssh-action@v0.1.10
        with:
@@ -42,7 +44,7 @@ jobs:
          username: ${{ secrets.USERNAME }}
          password: ${{ secrets.PASSWORD }}
          port: ${{ secrets.PORT }}
-         script: tar -xf deploy.tar .
+         script: tar -xf ${{destination}}/deploy.tar ${{destination}}/
         
          
 
