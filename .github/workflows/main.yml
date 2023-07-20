@@ -42,7 +42,7 @@ jobs:
          username: ${{ secrets.USERNAME }}
          password: ${{ secrets.PASSWORD }}
          port: ${{ secrets.PORT }}
-         script: tar -xf /home/nvi0/www/deploy.tar /home/nvi0/www/
+         script: tar -xf /home/nvi0/www/deploy.tar -C /home/nvi0/www/
         
          
 
